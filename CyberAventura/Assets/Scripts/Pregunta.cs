@@ -71,8 +71,9 @@ public class Pregunta{
 
 	// Valida si el char pasado por parametro coincide con la respuesta correcta
 	public bool ValidarRespuesta(string opcion){
-		if(opcion.Equals(respuesta))
+		if(opcion.Equals(respuesta)){
 			return true;
+		}
 		return false;
 	}
 }

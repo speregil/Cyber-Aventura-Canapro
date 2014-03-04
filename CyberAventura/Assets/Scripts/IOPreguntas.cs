@@ -67,19 +67,17 @@ public class IOPreguntas{
 		return preguntaActual.DarOpcionD();
 	}
 
-	//Cambia la pregunta actual a la siguiente en la lista
-	public void AvanzarPregunta(){
+	//Cambia la pregunta actual a la siguiente en la lista y retorna si pudo realizar la operacion o no
+	public bool AvanzarPregunta(){
 		indiceActual++;
-		preguntaActual = listaPreguntas[indiceActual]; 
-	}
-
-	//Verifica si hay otra pregunta para cargar
-	public bool HaySiguiente(){
-		if(indiceActual < numPreguntas)
+		if(indiceActual < numPreguntas){
+			preguntaActual = listaPreguntas[indiceActual];
 			return true;
+		}
 		return false;
 	}
 
+	//Valida una respuesta dada por el jugador
 	public bool ValidarRespuesta(string Respuesta){
 		return preguntaActual.ValidarRespuesta(Respuesta);
 	}

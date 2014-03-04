@@ -1,5 +1,5 @@
 4
-Pregunta1;OpcionA1;OpcionB1;OpcionC1;OpcionD1;A
-Pregunta2;OpcionA2;OpcionB2;OpcionC2;OpcionD2;B
-Pregunta3;OpcionA3;OpcionB3;OpcionC3;OpcionD3;C
-Pregunta4;OpcionA4;OpcionB4;OpcionC4;OpcionD4;D
+Pregunta1;OpcionA1;OpcionB1;OpcionC1;OpcionD1;A;
+Pregunta2;OpcionA2;OpcionB2;OpcionC2;OpcionD2;B;
+Pregunta3;OpcionA3;OpcionB3;OpcionC3;OpcionD3;C;
+Pregunta4;OpcionA4;OpcionB4;OpcionC4;OpcionD4;D;
