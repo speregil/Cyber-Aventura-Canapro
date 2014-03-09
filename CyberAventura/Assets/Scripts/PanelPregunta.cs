@@ -15,6 +15,10 @@ public class PanelPregunta : MonoBehaviour {
 	private string		BActual;
 	private string		CActual;
 	private string		DActual;
+	private	float		tiempoRestante;
+	private float		tiempoInicio;
+	private float		cambioTiempo;
+	private float		seccion;
 
 	void Start () {
 		textoActual = "";
@@ -43,15 +47,30 @@ public class PanelPregunta : MonoBehaviour {
 
 	void WindowFunction(int WindowID){
 		if(preguntaActiva){
+			// Dibujar la pregunta
 			GUI.Label(new Rect(50,50,(WindowRect.width/2) - 50,WindowRect.height - 50),textoActual);
 			if(GUI.Button(new Rect(WindowRect.width/2,50,WindowRect.width/2 - 50,WindowRect.height/8),AActual))
 				ValidarRespuesta(Pregunta.OPCIONA);
-			if(GUI.Button(new Rect(WindowRect.width/2,50 + 2*(WindowRect.height/8),WindowRect.width/2 - 50,WindowRect.height/8),BActual))
+			if(GUI.Button(new Rect(WindowRect.width/2,50 + (WindowRect.height/4),WindowRect.width/2 - 50,WindowRect.height/8),BActual))
 				ValidarRespuesta(Pregunta.OPCIONB);
-			if(GUI.Button(new Rect(WindowRect.width/2,50 + 4*(WindowRect.height/8),WindowRect.width/2 - 50,WindowRect.height/8),CActual))
+			if(GUI.Button(new Rect(WindowRect.width/2,50 + (WindowRect.height/2),WindowRect.width/2 - 50,WindowRect.height/8),CActual))
 				ValidarRespuesta(Pregunta.OPCIONC);
-			if(GUI.Button(new Rect(WindowRect.width/2,50 + 6*(WindowRect.height/8),WindowRect.width/2 - 50,WindowRect.height/8),DActual))
+			if(GUI.Button(new Rect(WindowRect.width/2,50 + 3*(WindowRect.height/4),WindowRect.width/2 - 50,WindowRect.height/8),DActual))
 				ValidarRespuesta(Pregunta.OPCIOND);
+
+			//Timer
+			float guiTime = Time.time - tiempoInicio;
+			cambioTiempo = Mathf.CeilToInt(tiempoRestante - guiTime);
+			seccion = ((tiempoRestante - cambioTiempo)/tiempoRestante);
+			Debug.Log(seccion);
+			if(seccion < 1){
+				int ancho = Mathf.CeilToInt(seccion*((WindowRect.width/2) - 100));
+				GUI.Box(new Rect(50, WindowRect.height - 50,ancho,WindowRect.height/4),"");
+			}
+			else{
+				preguntaActiva = false;
+				respuestaIncorrecta = true;
+			}
 		}
 		else if(respuestaCorrecta){
 			if(GUI.Button(new Rect(WindowRect.width/3,WindowRect.height/3,WindowRect.width/3,WindowRect.height/3), "¡CORRECTO!")){
@@ -66,9 +85,15 @@ public class PanelPregunta : MonoBehaviour {
 			}
 		}
 		else if(respuestaIncorrecta){
-			if(GUI.Button(new Rect(WindowRect.width/3,WindowRect.height/3,WindowRect.width/3,WindowRect.height/3), "¡VUELVE A INTENTAR!")){
-				respuestaIncorrecta = false;
-				preguntaActiva = true;
+			if(GUI.Button(new Rect(WindowRect.width/3,WindowRect.height/3,WindowRect.width/3,WindowRect.height/3), "ESO NO ES CORRECTO")){
+				if(listaPreguntas.AvanzarPregunta()){
+					respuestaIncorrecta = false;
+					MostrarPregunta();
+				}
+				else{
+					respuestaIncorrecta = false;
+					termino = true;
+				}
 			}
 		}
 		else if(termino){
@@ -91,6 +116,10 @@ public class PanelPregunta : MonoBehaviour {
 		BActual = listaPreguntas.DarOpcionB();
 		CActual = listaPreguntas.DarOpcionC();
 		DActual = listaPreguntas.DarOpcionD();
+		tiempoRestante = listaPreguntas.DarTiempo();
+		seccion = 0.0f;
+		cambioTiempo = 0.0f;
+		tiempoInicio = Time.time;
 		preguntaActiva = true;
 	}
 

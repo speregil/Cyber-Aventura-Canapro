@@ -37,7 +37,7 @@ public class IOPreguntas{
 		listaPreguntas = new Pregunta[numPreguntas];
 		for(int i = 0; i < numPreguntas;i++){
 			string[] dataPregunta = data[i+1].Split(';');
-			Pregunta nueva = new Pregunta(dataPregunta[0],dataPregunta[1],dataPregunta[2], dataPregunta[3],dataPregunta[4],dataPregunta[5]);
+			Pregunta nueva = new Pregunta(System.Int32.Parse(dataPregunta[0]),dataPregunta[1],dataPregunta[2], dataPregunta[3],dataPregunta[4],dataPregunta[5],dataPregunta[6],float.Parse(dataPregunta[7]));
 			listaPreguntas[i] = nueva;
 		}
 	}
@@ -47,6 +47,10 @@ public class IOPreguntas{
 	//-------------------------------------------------------------------------------------------
 
 	// Metodos para recuperar la informacion dela pregunta actual
+	public int DarID(){
+		return preguntaActual.DarID();
+	}
+
 	public string DarTexto(){
 		return preguntaActual.DarTexto();
 	}
@@ -65,6 +69,10 @@ public class IOPreguntas{
 
 	public string DarOpcionD(){
 		return preguntaActual.DarOpcionD();
+	}
+
+	public float DarTiempo(){
+		return preguntaActual.DarTiempo();
 	}
 
 	//Cambia la pregunta actual a la siguiente en la lista y retorna si pudo realizar la operacion o no

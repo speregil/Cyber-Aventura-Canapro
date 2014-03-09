@@ -19,6 +19,7 @@ public class Pregunta{
 	// Atributos
 	//----------------------------------------------------------------------------------------------
 
+	private int 	ID;//Identificador de la pregunta
 	private string 	textoPregunta; //Enunciado de la pregunta
 	// Opciones de respuesta
 	private string 	opcionA;
@@ -26,18 +27,21 @@ public class Pregunta{
 	private string 	opcionC;
 	private string 	opcionD;
 	private string 	respuesta; //Respuesta a la pregunta
+	private float	tiempo;//Marca de tiempo para responder la pregunta
 
 	//----------------------------------------------------------------------------------------------
 	// Constructor
 	//----------------------------------------------------------------------------------------------
 
-	public Pregunta(string texto, string opA, string opB, string opC, string opD, string nRespuesta){
+	public Pregunta(int id, string texto, string opA, string opB, string opC, string opD, string nRespuesta, float nTiempo){
+		ID = id;
 		textoPregunta = texto;
 		opcionA = opA;
 		opcionB = opB;
 		opcionC = opC;
 		opcionD = opD;
 		respuesta = nRespuesta;
+		tiempo = nTiempo;
 	}
 
 	//----------------------------------------------------------------------------------------------
@@ -45,6 +49,10 @@ public class Pregunta{
 	//----------------------------------------------------------------------------------------------
 
 	// Getters
+	public int DarID(){
+		return ID;
+	}
+
 	public string DarTexto(){
 		return textoPregunta;
 	}
@@ -67,6 +75,10 @@ public class Pregunta{
 
 	public string DarRespuesta(){
 		return respuesta;
+	}
+
+	public float DarTiempo(){
+		return tiempo;
 	}
 
 	// Valida si el char pasado por parametro coincide con la respuesta correcta
