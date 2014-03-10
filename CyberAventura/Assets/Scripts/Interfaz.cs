@@ -23,7 +23,6 @@ public class Interfaz : MonoBehaviour {
 	private int estado;
 	private string login = "ingrese su cuenta aqui";
 	private string pass = "prueba";
-	public GameObject mapa;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +33,6 @@ public class Interfaz : MonoBehaviour {
 
 		contenidoBoxLogin = new GUIContent();
 		contenidoBotonLogin = new GUIContent();
-		mapa.SetActive(false);
 
 		estado = 1;
 	}
@@ -62,7 +60,7 @@ public class Interfaz : MonoBehaviour {
 		{
 			if(GUI.Button(new Rect((Screen.width*1/8),(Screen.height*3/16),(Screen.width*1/4),(Screen.height*1/16)), "Mapa"))
 			{
-				estado = MAPA;
+				Application.LoadLevel("Mapa");
 			}
 			if(GUI.Button(new Rect((Screen.width*3/8),(Screen.height*7/16+Screen.height*1/32),(Screen.width*1/4),(Screen.height*1/16)), "Modos de Juego"))
 			{
@@ -78,10 +76,10 @@ public class Interfaz : MonoBehaviour {
 			}
 			GUI.Label(new Rect((Screen.width*5/8),(Screen.height*3/16),(Screen.width*1/4),(Screen.height*1/4)), "Logo");
 		}
-		else if(MAPA == estado)
+		/**else if(MAPA == estado)
 		{
 			mapa.SetActive(true);
-		}
+		}**/
 		else if(ESTADISTICAS == estado)
 		{
 		}
