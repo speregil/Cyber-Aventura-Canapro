@@ -46,8 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AdminNivel.cs" />
      <Compile Include="Assets\Scripts\IOPreguntas.cs" />
      <Compile Include="Assets\Scripts\Interfaz.cs" />
+     <Compile Include="Assets\Scripts\Movimiento.cs" />
+     <Compile Include="Assets\Scripts\OnClick.cs" />
      <Compile Include="Assets\Scripts\PanelPregunta.cs" />
      <Compile Include="Assets\Scripts\Pregunta.cs" />
      <None Include="Assets\Data\prueba.txt" />
