@@ -1,10 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Detecta acciones en los iconos de los edificios
+ * */
 public class OnClick : MonoBehaviour {
-	
-	public 	GameObject 	Admin;
-	private AdminNivel 	adminNivel;
+
+	//----------------------------------------------------------------------------
+	// Atributos
+	//----------------------------------------------------------------------------
+
+	public 	GameObject 	Admin;		//Conexion con el administrador del mapa. Asignar en Inspector
+	private AdminNivel 	adminNivel;	//Referencia al script de admnistracion
+
+	//----------------------------------------------------------------------------
+	// Constructor
+	//----------------------------------------------------------------------------
 
 	void Start () {
 		adminNivel = (AdminNivel)Admin.GetComponent(typeof(AdminNivel));
@@ -14,7 +25,9 @@ public class OnClick : MonoBehaviour {
 
 	}
 
+	// Detecta el click en el icono del edificio e inicia el movimieto del personaje
+	// hacia el
 	void OnMouseDown(){
 		adminNivel.nuevoDestino(transform.position);
-	}              
+	} 
 }

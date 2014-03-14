@@ -6,6 +6,7 @@ public class PanelPregunta : MonoBehaviour {
 	private	IOPreguntas listaPreguntas;
 	private Rect 		WindowRect;
 	private bool		ventanaActiva;
+	private bool		confirmacion;
 	private bool 		respuestaCorrecta;
 	private bool		respuestaIncorrecta;
 	private bool		preguntaActiva;
@@ -27,14 +28,14 @@ public class PanelPregunta : MonoBehaviour {
 		CActual = "";
 		DActual = "";
 		ventanaActiva = false;
+		confirmacion = false;
 		preguntaActiva = false;
 		respuestaCorrecta = false;
 		respuestaIncorrecta = false;
 		termino = false;
-		CargarLista("prueba");
+		confirmacion = false;
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 	}
 
@@ -43,63 +44,82 @@ public class PanelPregunta : MonoBehaviour {
 			WindowRect = new Rect(50,50,Screen.width - 100,Screen.height - 100);
 			WindowRect = GUI.Window(0,WindowRect,WindowFunction,"");
 		}
+
+		if(confirmacion){
+			WindowRect = new Rect((Screen.width/3) - 100,Screen.height/3 ,Screen.width/2,Screen.height/3);
+			WindowRect = GUI.Window(1,WindowRect,WindowFunction,"");
+		}
 	}
 
 	void WindowFunction(int WindowID){
-		if(preguntaActiva){
-			// Dibujar la pregunta
-			GUI.Label(new Rect(50,50,(WindowRect.width/2) - 50,WindowRect.height - 50),textoActual);
-			if(GUI.Button(new Rect(WindowRect.width/2,50,WindowRect.width/2 - 50,WindowRect.height/8),AActual))
-				ValidarRespuesta(Pregunta.OPCIONA);
-			if(GUI.Button(new Rect(WindowRect.width/2,50 + (WindowRect.height/4),WindowRect.width/2 - 50,WindowRect.height/8),BActual))
-				ValidarRespuesta(Pregunta.OPCIONB);
-			if(GUI.Button(new Rect(WindowRect.width/2,50 + (WindowRect.height/2),WindowRect.width/2 - 50,WindowRect.height/8),CActual))
-				ValidarRespuesta(Pregunta.OPCIONC);
-			if(GUI.Button(new Rect(WindowRect.width/2,50 + 3*(WindowRect.height/4),WindowRect.width/2 - 50,WindowRect.height/8),DActual))
-				ValidarRespuesta(Pregunta.OPCIOND);
+		// Ventana de las preguntas
+		if(WindowID == 0){
+			if(preguntaActiva){
+				// Dibujar la pregunta
+				GUI.Label(new Rect(50,50,(WindowRect.width/2) - 50,WindowRect.height - 50),textoActual);
+				if(GUI.Button(new Rect(WindowRect.width/2,50,WindowRect.width/2 - 50,WindowRect.height/8),AActual))
+					ValidarRespuesta(Pregunta.OPCIONA);
+				if(GUI.Button(new Rect(WindowRect.width/2,50 + (WindowRect.height/4),WindowRect.width/2 - 50,WindowRect.height/8),BActual))
+					ValidarRespuesta(Pregunta.OPCIONB);
+				if(GUI.Button(new Rect(WindowRect.width/2,50 + (WindowRect.height/2),WindowRect.width/2 - 50,WindowRect.height/8),CActual))
+					ValidarRespuesta(Pregunta.OPCIONC);
+				if(GUI.Button(new Rect(WindowRect.width/2,50 + 3*(WindowRect.height/4),WindowRect.width/2 - 50,WindowRect.height/8),DActual))
+					ValidarRespuesta(Pregunta.OPCIOND);
 
-			//Timer
-			float guiTime = Time.time - tiempoInicio;
-			cambioTiempo = Mathf.CeilToInt(tiempoRestante - guiTime);
-			seccion = ((tiempoRestante - cambioTiempo)/tiempoRestante);
-			Debug.Log(seccion);
-			if(seccion < 1){
-				int ancho = Mathf.CeilToInt(seccion*((WindowRect.width/2) - 100));
-				GUI.Box(new Rect(50, WindowRect.height - 50,ancho,WindowRect.height/4),"");
-			}
-			else{
-				preguntaActiva = false;
-				respuestaIncorrecta = true;
-			}
-		}
-		else if(respuestaCorrecta){
-			if(GUI.Button(new Rect(WindowRect.width/3,WindowRect.height/3,WindowRect.width/3,WindowRect.height/3), "¡CORRECTO!")){
-				if(listaPreguntas.AvanzarPregunta()){
-					respuestaCorrecta = false;
-					MostrarPregunta();
+				//Timer
+				float guiTime = Time.time - tiempoInicio;
+				cambioTiempo = Mathf.CeilToInt(tiempoRestante - guiTime);
+				seccion = ((tiempoRestante - cambioTiempo)/tiempoRestante);
+				if(seccion < 1){
+					int ancho = Mathf.CeilToInt(seccion*((WindowRect.width/2) - 100));
+					GUI.Box(new Rect(50, WindowRect.height - 50,ancho,WindowRect.height/4),"");
 				}
 				else{
-					respuestaCorrecta = false;
-					termino = true;
+					preguntaActiva = false;
+					respuestaIncorrecta = true;
+				}
+			}
+			else if(respuestaCorrecta){
+				if(GUI.Button(new Rect(WindowRect.width/3,WindowRect.height/3,WindowRect.width/3,WindowRect.height/3), "¡CORRECTO!")){
+					if(listaPreguntas.AvanzarPregunta()){
+						respuestaCorrecta = false;
+						MostrarPregunta();
+					}
+					else{
+						respuestaCorrecta = false;
+						termino = true;
+					}
+				}
+			}
+			else if(respuestaIncorrecta){
+				if(GUI.Button(new Rect(WindowRect.width/3,WindowRect.height/3,WindowRect.width/3,WindowRect.height/3), "ESO NO ES CORRECTO")){
+					if(listaPreguntas.AvanzarPregunta()){
+						respuestaIncorrecta = false;
+						MostrarPregunta();
+					}
+					else{
+						respuestaIncorrecta = false;
+						termino = true;
+					}
+				}
+			}
+			else if(termino){
+				if(GUI.Button(new Rect(WindowRect.width/3,WindowRect.height/3,WindowRect.width/3,WindowRect.height/3), "¡TERMINASTE!")){
+					termino = false;
+					ventanaActiva = false;
 				}
 			}
 		}
-		else if(respuestaIncorrecta){
-			if(GUI.Button(new Rect(WindowRect.width/3,WindowRect.height/3,WindowRect.width/3,WindowRect.height/3), "ESO NO ES CORRECTO")){
-				if(listaPreguntas.AvanzarPregunta()){
-					respuestaIncorrecta = false;
-					MostrarPregunta();
-				}
-				else{
-					respuestaIncorrecta = false;
-					termino = true;
-				}
+		// Ventana de confirmacion
+		else if(WindowID == 1){
+			GUI.Label(new Rect(WindowRect.width/3,50,(WindowRect.width/2) - 10,WindowRect.height - 50),"¿Desea entrar a este edificio?");
+			if(GUI.Button(new Rect(WindowRect.width/4,WindowRect.height/3 + 50,WindowRect.width/4,WindowRect.height/3), "SI")){
+				confirmacion = false;
+				CargarLista("Prueba");
 			}
-		}
-		else if(termino){
-			if(GUI.Button(new Rect(WindowRect.width/3,WindowRect.height/3,WindowRect.width/3,WindowRect.height/3), "¡TERMINASTE!")){
-				termino = false;
-				ventanaActiva = false;
+
+			if(GUI.Button(new Rect(2*(WindowRect.width/4)+5,WindowRect.height/3 + 50,WindowRect.width/4,WindowRect.height/3), "NO")){
+				confirmacion = false;
 			}
 		}
 	}
@@ -132,5 +152,9 @@ public class PanelPregunta : MonoBehaviour {
 			preguntaActiva = false;
 			respuestaIncorrecta = true;
 		}
+	}
+
+	public void PedirConfirmacion(string IDBulk){
+		confirmacion = true;
 	}
 }
